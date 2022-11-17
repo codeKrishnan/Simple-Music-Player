@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="audio_controller_mini_icon_size">30dp</dimen>
+    <dimen name="audio_controller_large_icon_size">40dp</dimen>
+    <dimen name="audio_controller_playback_bg_radius">80dp</dimen>
+</resources>
