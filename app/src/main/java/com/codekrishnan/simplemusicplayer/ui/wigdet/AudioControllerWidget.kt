@@ -25,12 +25,15 @@ import com.codekrishnan.simplemusicplayer.ui.theme.Yellow
 
 
 @Composable
-fun VideoControllerWidget() {
+fun AudioControllerWidget(
+    modifier: Modifier = Modifier,
+) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .background(BlackBackground)
-            .heightIn(min = 40.dp),
+            .heightIn(min = 40.dp)
+            .then(modifier),
         horizontalArrangement = Arrangement.SpaceEvenly,
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -97,5 +100,5 @@ fun VideoControllerWidget() {
 @Preview
 @Composable
 private fun Preview() {
-    VideoControllerWidget()
+    AudioControllerWidget()
 }
