@@ -11,7 +11,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.codekrishnan.simplemusicplayer.ui.theme.BlackBackground
-import com.codekrishnan.simplemusicplayer.ui.wigdet.AudioControllerWidget
 import com.codekrishnan.simplemusicplayer.ui.wigdet.AudioPlayer
 import com.codekrishnan.simplemusicplayer.ui.wigdet.TrackBanner
 
@@ -31,8 +30,7 @@ fun TrackPlayerScreen() {
                     .size(300.dp)
                     .align(Alignment.Center)
             )
-            AudioPlayer()
-            AudioControllerWidget(
+            AudioPlayer(
                 modifier = Modifier
                     .padding(
                         bottom = 32.dp

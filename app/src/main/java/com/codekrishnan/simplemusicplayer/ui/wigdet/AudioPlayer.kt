@@ -5,18 +5,19 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
-import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
 import androidx.media3.exoplayer.ExoPlayer
-import androidx.media3.ui.PlayerView
 
 @Composable
-fun AudioPlayer() {
+fun AudioPlayer(
+    modifier: Modifier = Modifier,
+) {
     val context = LocalContext.current
     val exoPlayer = remember {
         ExoPlayer
@@ -58,18 +59,14 @@ fun AudioPlayer() {
             lifecycle.removeObserver(observer)
         }
     }
-
-    DisposableEffect(
-        AndroidView(
-            factory = { it ->
-                PlayerView(it).apply {
-                    player = exoPlayer
-                }
-            }
-        )
-    ) {
-        onDispose {
-            exoPlayer.release()
+    AudioControllerWidget(
+        modifier = Modifier
+            .then(modifier),
+        onTrackPause = {
+            exoPlayer.pause()
+        },
+        onTrackResume = {
+            exoPlayer.play()
         }
-    }
+    )
 }
