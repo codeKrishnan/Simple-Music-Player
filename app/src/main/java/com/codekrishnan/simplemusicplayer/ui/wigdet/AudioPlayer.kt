@@ -3,8 +3,10 @@ package com.codekrishnan.simplemusicplayer.ui.wigdet
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
@@ -18,6 +20,7 @@ import androidx.media3.exoplayer.ExoPlayer
 fun AudioPlayer(
     modifier: Modifier = Modifier,
 ) {
+    var isPlaybackPaused by remember { mutableStateOf(false) }
     val context = LocalContext.current
     val exoPlayer = remember {
         ExoPlayer
@@ -43,7 +46,9 @@ fun AudioPlayer(
                     exoPlayer.playWhenReady = false
                 }
                 Lifecycle.Event.ON_RESUME -> {
-                    exoPlayer.playWhenReady = true
+                    if (!isPlaybackPaused) {
+                        exoPlayer.playWhenReady = true
+                    }
                 }
                 Lifecycle.Event.ON_DESTROY -> {
                     exoPlayer.run {
@@ -62,10 +67,13 @@ fun AudioPlayer(
     AudioControllerWidget(
         modifier = Modifier
             .then(modifier),
+        isPlaybackPaused = isPlaybackPaused,
         onTrackPause = {
+            isPlaybackPaused = true
             exoPlayer.pause()
         },
         onTrackResume = {
+            isPlaybackPaused = false
             exoPlayer.play()
         }
     )

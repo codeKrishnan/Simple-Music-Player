@@ -10,10 +10,6 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -31,10 +27,10 @@ import com.codekrishnan.simplemusicplayer.ui.theme.Yellow
 @Composable
 fun AudioControllerWidget(
     modifier: Modifier = Modifier,
+    isPlaybackPaused: Boolean,
     onTrackPause: () -> Unit,
     onTrackResume: () -> Unit,
 ) {
-    var isPaused by remember { mutableStateOf(false) }
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -68,12 +64,11 @@ fun AudioControllerWidget(
         }
         IconButton(
             onClick = {
-                if (isPaused) {
+                if (isPlaybackPaused) {
                     onTrackResume()
                 } else {
                     onTrackPause()
                 }
-                isPaused = !isPaused
             },
             modifier = Modifier
                 .size(dimensionResource(id = R.dimen.audio_controller_playback_bg_radius))
@@ -82,7 +77,7 @@ fun AudioControllerWidget(
                     color = Yellow
                 )
         ) {
-            val icon = if (isPaused) {
+            val icon = if (isPlaybackPaused) {
                 painterResource(id = R.drawable.play_icon)
             } else {
                 painterResource(id = R.drawable.pause)
@@ -120,6 +115,7 @@ fun AudioControllerWidget(
 @Composable
 private fun Preview() {
     AudioControllerWidget(
+        isPlaybackPaused = false,
         onTrackPause = {},
         onTrackResume = {}
     )
