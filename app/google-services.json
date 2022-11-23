@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "865684707911",
+    "project_id": "simple-music-player-15338",
+    "storage_bucket": "simple-music-player-15338.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:865684707911:android:fa005428192954d5f12f62",
+        "android_client_info": {
+          "package_name": "com.codekrishnan.simplemusicplayer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "865684707911-gkhnohuppqe331q569bf9h45n0cldq46.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDmoIZf6ff2JO7slDZEJto-CtIadWNMNrA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "865684707911-gkhnohuppqe331q569bf9h45n0cldq46.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
