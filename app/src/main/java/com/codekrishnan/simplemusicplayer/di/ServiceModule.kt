@@ -29,7 +29,7 @@ object ServiceModule {
     fun provideExoPlayer(
         @ApplicationContext context: Context,
         audioAttributes: AudioAttributes,
-    ) = ExoPlayer.Builder(context)
+    ) = ExoPlayer.Builder(context).build()
         .apply {
             setAudioAttributes(audioAttributes, true)
             setHandleAudioBecomingNoisy(true)
