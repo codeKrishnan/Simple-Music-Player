@@ -26,11 +26,15 @@ class MusicService : MediaBrowserServiceCompat() {
     @Inject
     lateinit var exoPlayer: ExoPlayer
 
+    private lateinit var musicNotificationManager: MusicNotificationManager
+
     private val serviceJob = Job()
     private val serviceScope = CoroutineScope(Dispatchers.Main + serviceJob)
 
     private lateinit var mediaSession: MediaSessionCompat
     private lateinit var mediaSessionConnector: MediaSessionConnector
+
+    var isForegroundService = false
 
     override fun onCreate() {
         super.onCreate()
@@ -51,7 +55,14 @@ class MusicService : MediaBrowserServiceCompat() {
             isActive = true
         }
         sessionToken = mediaSession.sessionToken
+        musicNotificationManager = MusicNotificationManager(
+            context = this,
+            sessionToken = mediaSession.sessionToken,
+            notificationListener = MusicPlayerNotificationListener(this),
+            newSongCallback = {
 
+            }
+        )
         mediaSessionConnector = MediaSessionConnector(mediaSession)
         mediaSessionConnector.setPlayer(exoPlayer)
     }
