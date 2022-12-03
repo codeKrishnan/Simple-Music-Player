@@ -39,12 +39,18 @@ class FirebaseMusicSource @Inject constructor(
         state = State.STATE_INITIALIZED
     }
 
-    fun asMediaSource(
+    /**
+     * Prepare and returns a [ConcatenatingMediaSource] from the retrieved songs.
+     *
+     * @param dataSourceFactory The [DefaultDataSource.Factory].
+     */
+    fun asConcatenatingMediaSource(
         dataSourceFactory: DefaultDataSource.Factory,
     ): ConcatenatingMediaSource {
         val concatenatingMediaSource = ConcatenatingMediaSource()
         songs.forEach { song ->
-            val mediaSource = ProgressiveMediaSource.Factory(dataSourceFactory)
+            val mediaSource = ProgressiveMediaSource
+                .Factory(dataSourceFactory)
                 .createMediaSource(MediaItem.fromUri(song.getString(METADATA_KEY_MEDIA_URI).toUri()))
             concatenatingMediaSource.addMediaSource(mediaSource)
         }
@@ -75,6 +81,7 @@ class FirebaseMusicSource @Inject constructor(
             }
         }
 
+    //TODO: Why return false on both the conditions?
     fun whenReady(action: (Boolean) -> Unit): Boolean {
         return if (state == State.STATE_CREATED || state == State.STATE_INITIALISING) {
             onReadyListeners += action

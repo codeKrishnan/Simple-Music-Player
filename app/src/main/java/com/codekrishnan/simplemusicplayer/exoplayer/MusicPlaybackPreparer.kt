@@ -31,8 +31,8 @@ class MusicPlaybackPreparer(
         extras: Bundle?,
     ) {
         firebaseMusicSource.whenReady {
-            val itemToPlay = firebaseMusicSource.songs.find {
-                mediaId == it.description.mediaId
+            val itemToPlay = firebaseMusicSource.songs.find { mediaMetadataCompat ->
+                mediaId == mediaMetadataCompat.description.mediaId
             }
             playerPrepared(itemToPlay)
         }

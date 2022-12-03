@@ -62,11 +62,11 @@ class MusicService : MediaBrowserServiceCompat() {
         serviceScope.launch {
             firebaseMusicSource.fetchMediaData()
         }
-        val activityIntent = packageManager?.getLaunchIntentForPackage(packageName)?.let {
+        val activityPendingIntent = packageManager?.getLaunchIntentForPackage(packageName)?.let { launchIntent ->
             PendingIntent.getActivity(
                 this,
                 0,
-                it,
+                launchIntent,
                 PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
             )
         }
@@ -75,7 +75,7 @@ class MusicService : MediaBrowserServiceCompat() {
             this,
             SERVICE_TAG,
         ).apply {
-            setSessionActivity(activityIntent)
+            setSessionActivity(activityPendingIntent)
             isActive = true
         }
         sessionToken = mediaSession.sessionToken
@@ -90,11 +90,11 @@ class MusicService : MediaBrowserServiceCompat() {
 
         val musicPlaybackPreparer = MusicPlaybackPreparer(
             firebaseMusicSource = firebaseMusicSource,
-        ) {
-            currentPlayingSong = it
+        ) { preparedMedia ->
+            currentPlayingSong = preparedMedia
             preparePlayer(
                 songs = firebaseMusicSource.songs,
-                itemToPlay = it,
+                itemToPlay = preparedMedia,
                 shouldPlayNow = true
             )
         }
@@ -104,7 +104,7 @@ class MusicService : MediaBrowserServiceCompat() {
             setPlaybackPreparer(musicPlaybackPreparer)
             setQueueNavigator(MusicQueueNavigator())
         }
-        musicPlayerEventListener = MusicPlayerEventListener(this)
+        musicPlayerEventListener = MusicPlayerEventListener(musicService = this)
         exoPlayer.addListener(musicPlayerEventListener)
         musicNotificationManager.showNotification(player = exoPlayer)
     }
@@ -174,7 +174,7 @@ class MusicService : MediaBrowserServiceCompat() {
             0
         }
         exoPlayer.prepare(
-            firebaseMusicSource.asMediaSource(
+            firebaseMusicSource.asConcatenatingMediaSource(
                 dataSourceFactory = dataSourceFactory
             )
         )
