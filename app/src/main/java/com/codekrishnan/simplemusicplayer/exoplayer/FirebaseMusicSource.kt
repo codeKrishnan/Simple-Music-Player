@@ -14,7 +14,7 @@ import com.codekrishnan.simplemusicplayer.data.remote.MusicDatabase
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.source.ConcatenatingMediaSource
 import com.google.android.exoplayer2.source.ProgressiveMediaSource
-import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
+import com.google.android.exoplayer2.upstream.DefaultDataSource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -40,7 +40,7 @@ class FirebaseMusicSource @Inject constructor(
     }
 
     fun asMediaSource(
-        dataSourceFactory: DefaultDataSourceFactory,
+        dataSourceFactory: DefaultDataSource.Factory,
     ): ConcatenatingMediaSource {
         val concatenatingMediaSource = ConcatenatingMediaSource()
         songs.forEach { song ->
