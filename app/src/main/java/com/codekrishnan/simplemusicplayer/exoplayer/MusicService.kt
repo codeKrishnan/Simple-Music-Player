@@ -22,7 +22,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 private const val SERVICE_TAG = "MusicService"
-private const val MEDIA_ROOT_ID = "root_id"
+const val MEDIA_ROOT_ID = "root_id"
 
 @AndroidEntryPoint
 class MusicService : MediaBrowserServiceCompat() {
@@ -62,14 +62,16 @@ class MusicService : MediaBrowserServiceCompat() {
         serviceScope.launch {
             firebaseMusicSource.fetchMediaData()
         }
-        val activityPendingIntent = packageManager?.getLaunchIntentForPackage(packageName)?.let { launchIntent ->
-            PendingIntent.getActivity(
-                this,
-                0,
-                launchIntent,
-                PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
-            )
-        }
+        val activityPendingIntent = packageManager
+            ?.getLaunchIntentForPackage(packageName)
+            ?.let { launchIntent ->
+                PendingIntent.getActivity(
+                    this,
+                    0,
+                    launchIntent,
+                    PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+                )
+            }
 
         mediaSession = MediaSessionCompat(
             this,
